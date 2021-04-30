@@ -2,13 +2,23 @@ package xyz.n7mn.dev;
 
 class BotSetting {
 
-    private String DiscordToken = "";
-    private String MySQLServerIP = "";
-    private int MySQLPort = 3306;
-    private String MySQLDatabase = "";
-    private String MySQLOption = "?allowPublicKeyRetrieval=true&useSSL=false";
-    private String MySQLUsername = "";
-    private String MySQLPassword = "";
+    private String DiscordToken;
+    private String MySQLServerIP;
+    private int MySQLPort;
+    private String MySQLDatabase;
+    private String MySQLOption;
+    private String MySQLUsername;
+    private String MySQLPassword;
+
+    public BotSetting(){
+        this.DiscordToken = "";
+        this.MySQLServerIP = "";
+        this.MySQLPort = 3306;
+        this.MySQLDatabase = "";
+        this.MySQLOption = "?allowPublicKeyRetrieval=true&useSSL=false";
+        this.MySQLUsername = "";
+        this.MySQLPassword = "";
+    }
 
     public String getDiscordToken() {
         return DiscordToken;

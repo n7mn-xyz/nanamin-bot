@@ -30,13 +30,7 @@ public class EarthQuakeListener implements ListenerInterface {
     }
 
     public void run(){
-
-        if (jda.getSelfUser().getId().equals("785322639295905792")){
-            return;
-        }
-
         Earthquake earthquake = new Earthquake();
-
 
         new Thread(()->{
             long lastEventID = earthquake.getLastEventID();
@@ -165,7 +159,19 @@ public class EarthQuakeListener implements ListenerInterface {
                         p_writer.print(list.toString());
                         p_writer.close();
                     } catch (Exception e){
-                        e.printStackTrace();
+                        try {
+                            if (!new File("./log/").exists()){
+                                new File("./log/").mkdir();
+                            }
+
+                            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+
+                            PrintWriter writer = new PrintWriter("./log/Error_"+format.format(new Date())+".txt");
+                            e.printStackTrace(writer);
+                            writer.close();
+                        } catch (Exception e1){
+                            e1.printStackTrace();
+                        }
                     }
 
                     isMoreMode = true;

@@ -35,13 +35,14 @@ public class NanamiMain {
                 return;
             }
 
-            String jsonText = "";
+            StringBuilder jsonText = new StringBuilder();
             try{
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-                List<String> lines = new ArrayList<>();
-                while ((jsonText = reader.readLine()) != null) {
-                    lines.add(jsonText);
+                String text;
+                while ((text = reader.readLine()) != null) {
+                    jsonText.append(text);
                 }
+
             } catch (IOException e) {
                 try {
                     if (!new File("./log/").exists()){
@@ -62,31 +63,15 @@ public class NanamiMain {
                 }
             }
 
-            BotSetting json = gson.fromJson(jsonText, BotSetting.class);
+            BotSetting json = gson.fromJson(jsonText.toString(), BotSetting.class);
             String token = json.getDiscordToken();
-            JDA jda = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_EMOJIS)
+            JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_EMOJIS)
                     .addEventListeners(new BotListener())
                     .enableCache(CacheFlag.VOICE_STATE)
                     .enableCache(CacheFlag.EMOTE)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setActivity(Activity.playing("ななみちゃんbot Ver 2.0-dev"))
                     .build();
-
-
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
-
-            String str = "";
-            while (!str.equals("stop")){
-                try {
-                    str = br.readLine();
-                    br.close();
-                    br = new BufferedReader(isr);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            jda.shutdown();
 
         } catch (Exception e) {
 
